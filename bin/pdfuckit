@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "bundler/setup"
+require "pdfuckit"
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: pdfuckit [options]"
+
+  opts.on("-jDIR", "--join=DIR", "Recursively joins all files in a directory") do |dir|
+    options[:join_dir] = dir
+  end
+
+  opts.on("-oDIR", "--out=DIR", "Destination for the resulting PDF") do |dir|
+    options[:out_dir] = dir
+  end
+
+  opts.on("-pPASSWORD", "--password=PASSWORD", "specify a password") do |pw|
+    options[:password] = pw
+  end
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
+
+Pdfuckit.exec(options)
